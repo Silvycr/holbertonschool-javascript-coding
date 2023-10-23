@@ -4,13 +4,15 @@
   based in the id
 */
 const request = require('request');
-let movtitle = 'http://swapi.co/api/films/';
-movtitle = movtitle.concat(process.argv[2]);
 
-request(movtitle, function (error, response, body) {
-  if (error) {
-    console.log(error);
+const movieID = process.argv[2];
+const URL = `https://swapi-api.hbtn.io/api/films/${movieID}`;
+
+request(URL, (error, response, body) => { // configure the request
+  if (!error && response.statusCode === 200) { // check status code
+    const film = JSON.parse(body); // parse the response body as JSON
+    console.log(film.title);
   } else {
-    console.log(JSON.parse(body).title);
+    console.error('Error:', error);
   }
 });
